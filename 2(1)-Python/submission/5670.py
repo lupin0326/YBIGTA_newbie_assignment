@@ -61,8 +61,18 @@ def count(trie: Trie, query_seq: str) -> int:
         if len(trie[pointer].children) > 1 or trie[pointer].is_end:
             cnt += 1
 
-        new_index = None # 구현하세요!
+        new_index: Optional[int] = None # 구현하세요!
 
+        # 새로운 노드를 찾아서 new_index에 할당
+        for child_index in trie[pointer].children:
+            if trie[child_index].body == element:
+                new_index = child_index
+                break
+
+        # new_index가 None일 경우 처리
+        if new_index is None:
+            raise ValueError(f"'{element}'에 해당하는 노드를 찾을 수 없습니다.")
+            
         pointer = new_index
 
     return cnt + int(len(trie[0].children) == 1)
