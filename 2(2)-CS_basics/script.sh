@@ -29,7 +29,7 @@ else
 fi
 
 # 필요한 패키지 설치
-pip install -r requirements.txt
+pip install mypy
 
 # Submission 폴더 파일 실행
 cd submission || { echo "submission 디렉토리로 이동 실패"; exit 1; }
