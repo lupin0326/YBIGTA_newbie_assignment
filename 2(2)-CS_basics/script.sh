@@ -18,6 +18,8 @@ if ! conda env list | grep -q "myenv"; then
     echo "가상환경 생성 완료!"
 fi
 
+source $HOME/miniconda/etc/profile.d/conda.sh
+conda activate myenv
 
 ## 건드리지 마세요! ##
 python_env=$(python -c "import sys; print(sys.prefix)")
@@ -29,6 +31,7 @@ else
 fi
 
 # 필요한 패키지 설치
+echo "필요한 패키지 설치 중..."
 pip install mypy
 
 # Submission 폴더 파일 실행
@@ -38,16 +41,19 @@ for file in *.py; do
     input_file="../input/${file%.py}_input"
     output_file="../output/${file%.py}_output"
     
-    if [[ -f $input_file ]]; then
+    if [[ -f "$input_file" ]]; then
         echo "실행 중: $file"
         python "$file" < "$input_file" > "$output_file"
+        echo "결과 저장: $output_file"
     else
         echo "입력 파일 없음: $input_file"
     fi
 done
 
 # mypy 테스트 실행행
+echo "타입 검사 실행 중..."
 mypy *.py
 
 # 가상환경 비활성화
+echo "가상환경 비활성화 중..."
 conda deactivate
